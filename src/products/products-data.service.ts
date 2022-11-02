@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { Product } from './interfaces/product.interface';
-import shortid from 'shortid';
 import { CreateProductDto } from './dto/create-products.dto';
 import { ExternalProductDto } from './dto/external-product.dto';
 import { UpdateProductDto } from './dto/update-products.dto';
@@ -15,7 +14,7 @@ export class ProductsDataService {
     return this.products;
   }
   getProductById(id: string): Product {
-    return this.products.find((i) => (i.id = id));
+    return this.products.find((i) => i.id === id);
   }
   addProduct(_item_: CreateProductDto): ExternalProductDto {
     const product: Product = {

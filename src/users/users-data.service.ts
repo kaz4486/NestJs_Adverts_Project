@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-users.dto';
 import { User } from './interfaces/user.interface';
 import { v4 as uuidv4 } from 'uuid';
-import { arrayToDate } from 'src/shared/helpers/date.helper';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { arrayToDate } from 'src/shared/helpers/date.helper';
 
 @Injectable()
 export class UsersDataService {
@@ -15,6 +15,10 @@ export class UsersDataService {
 
   getUserById(id: string): User {
     return this.users.find((i) => i.id === id);
+  }
+
+  getUserByEmail(email: string): User {
+    return this.users.find((i) => i.email === email);
   }
   addUser(_item_: CreateUserDto): User {
     const user: User = {
@@ -31,7 +35,11 @@ export class UsersDataService {
   updateUser(id: string, dto: UpdateUserDto): User {
     const user = this.getUserById(id);
     const index = this.users.findIndex((i) => i.id === id);
-    this.users[index] = { ...user, ...dto };
+    this.users[index] = {
+      ...user,
+      ...dto,
+      date_of_birth: arrayToDate(dto.date_of_birth),
+    };
     return this.users[index];
   }
 }

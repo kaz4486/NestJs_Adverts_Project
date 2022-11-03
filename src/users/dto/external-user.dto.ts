@@ -8,11 +8,11 @@ export interface ExternalUserDto {
     email: string;
     date_of_birth: Array<number>;
     role: Roles;
-    adress: UserAddressDto;
+    adress?: Array<ExternalUserAddressDto>;
 }
 
 
-export interface UserAddressDto {
+export interface ExternalUserAddressDto {
     country: string;
     city: string;
     street: string;

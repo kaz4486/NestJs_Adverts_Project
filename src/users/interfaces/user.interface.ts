@@ -8,7 +8,7 @@ export interface User {
   email: string;
   date_of_birth: Date;
   role: Roles;
-  adress: UserAddress;
+  adress?: Array<UserAddress>;
 }
 
 export interface UserAddress {

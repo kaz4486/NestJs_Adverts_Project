@@ -2,7 +2,7 @@
 import { Transform, Type } from 'class-transformer';
 import { IsEmail, IsEnum, IsNotEmpty, IsNumber, ValidateNested } from 'class-validator';
 import { arrayToDate } from 'src/shared/helpers/date.helper';
-import { Roles } from '../enums/roles.enums';
+import { Roles } from '../../shared/enums/roles.enums';
 
 export class CreateUserDto {
     @IsNotEmpty()

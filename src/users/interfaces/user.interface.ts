@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Roles } from '../enums/roles.enums';
+import { Roles } from '../../shared/enums/roles.enums';
 
 export interface User {
   id: string;

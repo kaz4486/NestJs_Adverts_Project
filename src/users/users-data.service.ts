@@ -31,7 +31,7 @@ export class UsersDataService {
   }
 
   async addUser(item: CreateUserDto): Promise<User> {
-    const checkEmail = this.userRepository.getUserByEmail(item.email);
+    const checkEmail = await this.getUserByEmail(item.email);
     if (checkEmail) {
       throw new UserRequireUniqueEmailException();
     }

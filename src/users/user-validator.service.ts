@@ -8,7 +8,6 @@ export class UserValidatorService {
 
   validateUniqueEmail(email: string): void {
     if (this.userRepository.getUserByEmail(email)) {
-      console.log('validator' + email);
       throw new UserRequireUniqueEmailException();
     }
   }

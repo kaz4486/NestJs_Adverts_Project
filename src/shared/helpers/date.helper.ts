@@ -10,6 +10,7 @@ export const dateToArray = (date: Date): Array<number> => {
   ];
 };
 
-export const arrayToDate = (array: Array<number>): Date => {
+export const arrayToDate = (array: any): Date => {
+  if (!Array.isArray(array) || array.length !== 6 || array.some(i => typeof i !== 'number')) return new Date();
   return new Date(array[0], array[1], array[2], array[3], array[4], array[5]);
 };

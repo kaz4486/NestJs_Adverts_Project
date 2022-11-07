@@ -16,5 +16,5 @@ export class CreateProductDto {
 
   @IsArray()
   @IsEnum(Tags, {each: true})
-  tags: Array<Tags>;
+  tags: Tags[];
 }

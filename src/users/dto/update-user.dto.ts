@@ -13,9 +13,9 @@ export class UpdateUserDto {
     @IsNotEmpty()
     email: string;
 
-    // // @Transform((d) => arrayToDate(d))
-    // date_of_birth: Date;
-    date_of_birth: Array<number>
+    @Transform((d) => arrayToDate(d))
+    date_of_birth: Date;
+    // date_of_birth: Array<number>
 
     @IsEnum(Roles)
     role: Roles;

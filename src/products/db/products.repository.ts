@@ -1,11 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-  EntityRepository,
-  Repository,
-  In,
-  DeleteResult,
-  DataSource,
-} from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { Product } from './products.entity';
 
 @Injectable()

@@ -24,8 +24,9 @@ export class UserAddress {
 
   @Column({
     type: 'int',
+    nullable: true,
   })
-  flat_number?: number;
+  flat_number: number;
 
   @ManyToOne((type) => User, (user) => user.id, {
     onDelete: 'CASCADE',

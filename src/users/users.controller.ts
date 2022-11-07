@@ -21,31 +21,29 @@ import { UsersDataService } from './users-data.service';
 export class UsersController {
   [x: string]: any; //????
 
-  constructor(
-    private userRepository: UsersDataService,
-    private validateRepository: UserValidatorService,
-  ) {}
+  constructor(private userRepository: UsersDataService) {}
   @Get()
-  getAllUsers(): Array<ExternalUserDto> {
-    return this.userRepository.getAllUsers().map(this.mapUserToExternal);
+  async getAllUsers(): Promise<Array<ExternalUserDto>> {
+    return (await this.userRepository.getAllUsers()).map(
+      this.mapUserToExternal,
+    );
   }
 
   @Get(':id')
-  getUserById(
+  async getUserById(
     @Param('id', new ParseUUIDPipe({ version: '4' })) _id_: string,
-  ): ExternalUserDto {
+  ): Promise<ExternalUserDto> {
     const user = this.userRepository.getUserById(_id_);
 
     if (user === undefined) {
       throw new NotFoundException();
     }
-    return this.mapUserToExternal(user);
+    return this.mapUserToExternal(await user);
   }
 
   @Post()
-  addUser(@Body() _item_: CreateUserDto): ExternalUserDto {
-    this.validateRepository.validateUniqueEmail(_item_.email);
-    return this.mapUserToExternal(this.userRepository.addUser(_item_));
+  async addUser(@Body() _item_: CreateUserDto): Promise<ExternalUserDto> {
+    return this.mapUserToExternal(await this.userRepository.addUser(_item_));
   }
 
   @Delete(':id')
@@ -55,11 +53,13 @@ export class UsersController {
   }
 
   @Put(':id')
-  updateUser(
+  async updateUser(
     @Param('id', new ParseUUIDPipe({ version: '4' })) _id_: string,
     @Body() _user_: UpdateUserDto,
-  ): ExternalUserDto {
-    return this.mapUserToExternal(this.userRepository.updateUser(_id_, _user_));
+  ): Promise<ExternalUserDto> {
+    return this.mapUserToExternal(
+      await this.userRepository.updateUser(_id_, _user_),
+    );
   }
 
   mapUserToExternal(user: User): ExternalUserDto {

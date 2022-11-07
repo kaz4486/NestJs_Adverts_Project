@@ -5,6 +5,7 @@ import {
   Delete,
   Get,
   HttpCode,
+  NotFoundException,
   Param,
   ParseUUIDPipe,
   Post,
@@ -34,9 +35,11 @@ export class ProductsController {
   async getProductById(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
   ): Promise<ExternalProductDto> {
-    return this.mapProductToExternal(
-      await this.productRepository.getProductById(id),
-    );
+    const product = this.productRepository.getProductById(id);
+    if (product === undefined) {
+      throw new NotFoundException();
+    }
+    return this.mapProductToExternal(await product);
   }
 
   @Post()

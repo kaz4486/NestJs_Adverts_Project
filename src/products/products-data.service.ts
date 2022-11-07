@@ -14,7 +14,7 @@ export class ProductsDataService {
     private productRepository: ProductRepository,
     private tagRepository: TagRepository,
   ) {}
-  private products: Array<Product> = [];
+  // private products: Array<Product> = [];
 
   getProductById(id: string): Promise<Product> {
     return this.productRepository.findOneBy({ id });

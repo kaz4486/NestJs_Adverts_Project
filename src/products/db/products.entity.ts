@@ -47,4 +47,10 @@ export class Product {
     },
   })
   tags: Tag[];
+
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  description: string;
 }

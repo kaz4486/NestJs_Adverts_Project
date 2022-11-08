@@ -33,12 +33,12 @@ export class UsersController {
   async getUserById(
     @Param('id', new ParseUUIDPipe({ version: '4' })) _id_: string,
   ): Promise<ExternalUserDto> {
-    const user = this.userRepository.getUserById(_id_);
-
-    if (user === undefined) {
+    const user = await this.userRepository.getUserById(_id_);
+    console.log(user);
+    if (user === undefined || user === null) {
       throw new NotFoundException();
     }
-    return this.mapUserToExternal(await user);
+    return this.mapUserToExternal(user);
   }
 
   @Post()
@@ -63,6 +63,7 @@ export class UsersController {
   }
 
   mapUserToExternal(user: User): ExternalUserDto {
+    console.log(user);
     return {
       ...user,
       date_of_birth: dateToArray(user.date_of_birth),

@@ -1,13 +1,22 @@
 {
+    "version": "0.2.0",
     "configurations": [
-    {
-        "name": "Attach",
-        "port": 9229,
-        "request": "attach",
-        "skipFiles": [
-            "<node_internals>/**"
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Debug Nest Framework",
+        "runtimeExecutable": "npm",
+        "runtimeArgs": [
+          "run",
+          "start:debug",
+          "--",
+          "--inspect-brk"
         ],
-        "type": "node"
-    }
+        "autoAttachChildProcesses": true,
+        "restart": true,
+        "sourceMaps": true,
+        "stopOnEntry": false,
+        "console": "integratedTerminal",
+      }
     ]
-}
+  }

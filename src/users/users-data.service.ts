@@ -7,6 +7,7 @@ import { UserAddressRepository } from './db/addresses.repository';
 import { UserAddress } from './db/addresses.entity';
 import { UserValidatorService } from './user-validator.service';
 import { UserRequireUniqueEmailException } from './exception/user-require-unique-email-exception';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class UsersDataService {
@@ -14,6 +15,7 @@ export class UsersDataService {
     private userRepository: UserRepository,
     private userAddressRepository: UserAddressRepository,
     private validateRepository: UserValidatorService,
+    private dataSource: DataSource,
   ) {}
   private users: Array<User> = [];
 
@@ -30,53 +32,56 @@ export class UsersDataService {
     return await this.userRepository.findOneBy({ email });
   }
 
-  async addUser(item: CreateUserDto): Promise<User> {
-    const checkEmail = await this.getUserByEmail(item.email);
-    if (checkEmail) {
-      throw new UserRequireUniqueEmailException();
-    }
+  async addUser(user: CreateUserDto): Promise<User> {
+    return this.dataSource.transaction(async () => {
+      const checkEmail = await this.getUserByEmail(user.email);
+      if (checkEmail) {
+        throw new UserRequireUniqueEmailException();
+      }
+      const userToSave = new User();
 
-    const userToSave = new User();
-    userToSave.name = item.name;
-    userToSave.date_of_birth = item.date_of_birth;
-    userToSave.surname = item.surname;
-    userToSave.email = item.email;
-    userToSave.role = item.role;
-    userToSave.address = await this.prepareUserAddressesToSave(item.address);
+      userToSave.name = user.name;
+      userToSave.surname = user.surname;
+      userToSave.email = user.email;
+      userToSave.role = user.role;
+      userToSave.date_of_birth = user.date_of_birth;
 
-    const user = this.userRepository.save(userToSave);
-    return user;
+      userToSave.address = await this.prepareUserAddressesToSave(
+        user.address,
+        this.userAddressRepository,
+      );
+
+      return await this.userRepository.save(userToSave);
+    });
   }
 
   deleteUser(id: string): void {
     this.userRepository.delete(id);
   }
   async updateUser(id: string, item: UpdateUserDto): Promise<User> {
-    const userToUpdate = await this.getUserById(id);
-    userToUpdate.name = item.name;
-    userToUpdate.date_of_birth = item.date_of_birth;
-    userToUpdate.surname = item.surname;
-    userToUpdate.email = item.email;
-    userToUpdate.role = item.role;
-    userToUpdate.address = await this.prepareUserAddressesToSave(item.address);
+    return this.dataSource.transaction(async () => {
+      const userToUpdate = await this.getUserById(id);
 
-    await this.userAddressRepository.deleteUserAddressesByUserId(id);
+      userToUpdate.name = item.name;
+      userToUpdate.date_of_birth = item.date_of_birth;
+      userToUpdate.surname = item.surname;
+      userToUpdate.email = item.email;
+      userToUpdate.role = item.role;
+      userToUpdate.address = await this.prepareUserAddressesToSave(
+        item.address,
+        this.userAddressRepository,
+      );
 
-    return this.userRepository.save(userToUpdate);
+      await this.userAddressRepository.deleteUserAddressesByUserId(id);
 
-    // const index = this.users.findIndex((i) => i.id === id);
-    // this.users[index] = {
-    //   ...user,
-    //   ...dto,
-    //   date_of_birth: arrayToDate(dto.date_of_birth),
-    // };
-    // return this.users[index];
+      return await this.userRepository.save(userToUpdate);
+    });
   }
 
   async prepareUserAddressesToSave(
     address: CreateUserAddressDto[] | UpdateUserAddressDto[],
+    userAddressRepository: UserAddressRepository,
   ): Promise<UserAddress[]> {
-    console.log(address);
     const addresses: UserAddress[] = [];
     for (const add of address) {
       const addressToSave = new UserAddress();
@@ -90,6 +95,6 @@ export class UsersDataService {
       addresses.push(await this.userAddressRepository.save(addressToSave));
     }
 
-    return addresses;
+    return userAddressRepository.save(addresses);
   }
 }

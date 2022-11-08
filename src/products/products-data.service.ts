@@ -16,8 +16,8 @@ export class ProductsDataService {
   ) {}
   // private products: Array<Product> = [];
 
-  getProductById(id: string): Promise<Product> {
-    return this.productRepository.findOneBy({ id });
+  async getProductById(id: string): Promise<Product> {
+    return await this.productRepository.findOneBy({ id });
   }
 
   getAllProducts(): Promise<Product[]> {

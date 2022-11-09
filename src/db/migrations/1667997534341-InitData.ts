@@ -1,11 +1,11 @@
-import { Tag } from '../products/db/tag.entity';
+import { Tag } from '../../products/db/tag.entity';
 
 import { faker } from '@faker-js/faker';
-import { UserAddress } from '../users/db/addresses.entity';
-import { User } from '../users/db/users.entity';
-import dataSource from '../data-source';
-import { Product } from '../products/db/products.entity';
-import { MigrationInterface, QueryRunner, getRepository } from 'typeorm';
+import { UserAddress } from '../../users/db/addresses.entity';
+import { User } from '../../users/db/users.entity';
+import dataSource from '../../data-source';
+import { Product } from '../../products/db/products.entity';
+import { getRepository, MigrationInterface, QueryRunner } from 'typeorm';
 
 export class $InitData1667997534341 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {

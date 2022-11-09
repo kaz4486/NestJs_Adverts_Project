@@ -11,7 +11,7 @@ export const dataSourceOptions: DataSourceOptions = {
   database: 'shop',
   entities: [__dirname + '/**/*.entity{.ts,.js}'],
   synchronize: true,
-  dropSchema: true,
+  dropSchema: false,
   migrationsRun: true,
   migrations: [__dirname + '/db/migrations/**/*{.ts,.js}'],
   // cli: {

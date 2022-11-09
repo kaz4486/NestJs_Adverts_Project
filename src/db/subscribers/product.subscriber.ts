@@ -1,6 +1,6 @@
 import {
-  EntitySubscriberInterface,
   EventSubscriber,
+  EntitySubscriberInterface,
   InsertEvent,
   UpdateEvent,
   RemoveEvent,

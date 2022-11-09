@@ -35,11 +35,11 @@ export class ProductsController {
   async getProductById(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
   ): Promise<ExternalProductDto> {
-    const product = this.productRepository.getProductById(id);
-    if (product === undefined) {
+    const product = await this.productRepository.getProductById(id);
+    if (product === undefined || product === null) {
       throw new NotFoundException();
     }
-    return this.mapProductToExternal(await product);
+    return this.mapProductToExternal(product);
   }
 
   @Post()

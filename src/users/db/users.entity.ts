@@ -1,5 +1,6 @@
-import { Roles } from '../../shared/enums/roles.enums';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Roles } from '../../shared/enums/roles.enums';
+
 import { UserAddress } from './addresses.entity';
 
 @Entity({

@@ -29,4 +29,5 @@ export class User {
 
   @OneToMany((type) => UserAddress, (address) => address.user)
   address?: UserAddress[];
+  orders: any;
 }

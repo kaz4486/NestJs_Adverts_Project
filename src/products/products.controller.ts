@@ -1,17 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  NotFoundException,
-  Param,
-  ParseUUIDPipe,
-  Post,
-  Put,
-  UseGuards,
-} from '@nestjs/common';
+
 import { ExternalProductDto } from './dto/external-product.dto';
 import { CreateProductDto } from './dto/create-products.dto';
 import { ProductsDataService } from './products-data.service';
@@ -19,6 +7,19 @@ import { Product } from './db/products.entity';
 import { dateToArray } from 'src/shared/helpers/date.helper';
 import { UpdateProductDto } from './dto/update-products.dto';
 import { RoleGuard } from 'src/shared/guards/role.guard';
+import {
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  NotFoundException,
+  Post,
+  UseGuards,
+  Body,
+  Delete,
+  HttpCode,
+  Put,
+} from '@nestjs/common';
 
 @Controller('products')
 export class ProductsController {

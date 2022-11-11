@@ -1,7 +1,6 @@
 import { AppService } from './app.service';
 import { ProductsModule } from './products/products.module';
 import { UsersModule } from './users/users.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import * as cors from 'cors';
 import { AppController } from './app.controller';
 import { dataSourceOptions } from './data-source';
@@ -11,6 +10,7 @@ import {
   MiddlewareConsumer,
   RequestMethod,
 } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [

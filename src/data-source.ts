@@ -1,5 +1,3 @@
-import * as dotenv from 'dotenv';
-dotenv.config();
 import { DataSource, DataSourceOptions } from 'typeorm';
 
 export const dataSourceOptions: DataSourceOptions = {
@@ -12,7 +10,7 @@ export const dataSourceOptions: DataSourceOptions = {
   entities: [__dirname + '/**/*.entity{.ts,.js}'],
   synchronize: true,
   dropSchema: false,
-  migrationsRun: true,
+  migrationsRun: false,
   migrations: [__dirname + '/db/migrations/**/*{.ts,.js}'],
   // cli: {
   //   migrationsDir: 'src/db/migrations',

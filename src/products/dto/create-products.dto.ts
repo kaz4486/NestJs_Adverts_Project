@@ -7,9 +7,11 @@ export class CreateProductDto {
   @MinLength(0)
   @MaxLength(25)
   name: string;
+
   @Min(0)
   @IsNumber()
   price: number;
+  
   @Min(0)
   @IsNumber()
   count: number;

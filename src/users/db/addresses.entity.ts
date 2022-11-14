@@ -28,7 +28,7 @@ export class UserAddress {
   })
   flat_number: number;
 
-  @ManyToOne((type) => User, (user) => user.id, {
+  @ManyToOne(() => User, (user) => user.id, {
     onDelete: 'CASCADE',
   })
   user: User;

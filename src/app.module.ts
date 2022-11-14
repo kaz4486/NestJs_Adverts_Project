@@ -11,11 +11,13 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
     ProductsModule,
     UsersModule,
+    OrdersModule,
     TypeOrmModule.forRoot(dataSourceOptions),
     // TypeOrmModule.forRoot(config as ConnectionOptions),
   ],

@@ -28,6 +28,5 @@ export class User {
   role: Roles;
 
   @OneToMany((type) => UserAddress, (address) => address.user)
-  address?: UserAddress[];
-  orders: any;
+  address: UserAddress[];
 }

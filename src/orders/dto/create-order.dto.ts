@@ -32,4 +32,8 @@ export class CreateOrderedProductDto {
   @IsNotEmpty()
   @IsUUID()
   productId: string;
+
+  @Min(0)
+  @IsNumber()
+  count: number;
 }

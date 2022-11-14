@@ -1,5 +1,12 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsUUID, Min, IsNumber, IsEnum, ValidateNested } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsUUID,
+  Min,
+  IsNumber,
+  IsEnum,
+  ValidateNested,
+} from 'class-validator';
 import { Column } from 'typeorm';
 import { Statuses } from '../enums/statuses.enums';
 import { CreateOrderedProductDto } from './create-order.dto';
@@ -24,7 +31,7 @@ export class UpdateOrderDto {
 
   @ValidateNested({ each: true })
   @Type(() => CreateOrderedProductDto)
-  products: Array<CreateOrderedProductDto>;
+  products: Array<UpdateOrderedProductDto>;
 }
 
 export class UpdateOrderedProductDto {

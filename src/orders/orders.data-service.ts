@@ -82,9 +82,15 @@ export class OrdersDataService {
       orderToSave.additionalInformations = order.additionalInformations;
       orderToSave.price = 0;
 
+      let productPrice = 0;
       orderToSave.orderedProducts.forEach((product) => {
-        orderToSave.price += product.price;
+        productPrice += product.price * product.count;
         return orderToSave.price;
+      });
+
+      order.products.forEach((product) => {
+        const productAmount = product.count;
+        orderToSave.price += productPrice * productAmount;
       });
       return await this.orderRepository.save(orderToSave);
     });
@@ -102,6 +108,7 @@ export class OrdersDataService {
       orderToUpdate.orderedProducts = await this.saveOrderedProducts(
         order.products,
       );
+
       orderToUpdate.status = order.status;
       orderToUpdate.user = new User();
       orderToUpdate.user.id = order.userId;
@@ -110,10 +117,15 @@ export class OrdersDataService {
       orderToUpdate.additionalInformations = order.additionalInformations;
       orderToUpdate.price = 0;
 
+      let productPrice = 0;
       orderToUpdate.orderedProducts.forEach((product) => {
-        orderToUpdate.price += product.price * product.count;
-        console.log(orderToUpdate.price);
+        productPrice += product.price * product.count;
         return orderToUpdate.price;
+      });
+
+      order.products.forEach((product) => {
+        const productAmount = product.count;
+        orderToUpdate.price += productPrice * productAmount;
       });
 
       await this.orderRepository.save(orderToUpdate);

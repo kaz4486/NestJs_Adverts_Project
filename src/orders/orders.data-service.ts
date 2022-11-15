@@ -137,4 +137,50 @@ export class OrdersDataService {
   deleteOrder(id: string): void {
     this.orderRepository.delete(id);
   }
+
+  async addProductToOrder(
+    orderId: string,
+    productToOrder: CreateOrderedProductDto,
+  ): Promise<OrderedProduct> {
+    return await this.dataSource.transaction(async () => {
+      const product = await this.productRepository.findOneBy({
+        id: productToOrder.productId,
+      });
+      return await this.orderedProductsRepository.saveNewProduct(
+        product,
+        orderId,
+        productToOrder,
+      );
+    });
+  }
+
+  async deleteProductsFromOrder(
+    idOrderProduct: string,
+    orderId: string,
+  ): Promise<Order> {
+    await this.orderedProductsRepository.delete({ id: idOrderProduct });
+    const order = await this.orderRepository.findOneBy({
+      id: orderId,
+    });
+    console.log(order);
+    return order;
+  }
+
+  async updateUserAddress(
+    orderId: string,
+    userAddressId: string,
+  ): Promise<Order> {
+    await this.orderRepository.update(
+      {
+        id: orderId,
+      },
+      {
+        userAddress: {
+          id: userAddressId,
+        },
+      },
+    );
+
+    return this.orderRepository.findOneBy({ id: orderId });
+  }
 }

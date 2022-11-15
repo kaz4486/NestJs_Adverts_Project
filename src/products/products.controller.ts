@@ -20,23 +20,28 @@ import {
   HttpCode,
   Put,
 } from '@nestjs/common';
+import { Query } from 'typeorm/driver/Query';
+import { ProductsQuery } from './queries/product-query.interface';
+import { QueryBuilder } from 'typeorm';
 
 @Controller('products')
 export class ProductsController {
   [x: string]: any;
-  constructor(private productRepository: ProductsDataService) {}
+  constructor(private productService: ProductsDataService) {}
 
   @Get()
   async getAllProducts(): Promise<ExternalProductDto[]> {
-    const products = await this.productRepository.getAllProducts();
-    return products.map((i) => this.mapProductToExternal(i));
+    return (await this.productService.getAllProducts()).map((i) =>
+      this.mapProductToExternal(i),
+    );
+    // return products.map((i) => this.mapProductToExternal(i));
   }
 
   @Get(':id')
   async getProductById(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
   ): Promise<ExternalProductDto> {
-    const product = await this.productRepository.getProductById(id);
+    const product = await this.productService.getProductById(id);
     if (product === undefined || product === null) {
       throw new NotFoundException();
     }
@@ -49,14 +54,14 @@ export class ProductsController {
     @Body() _item_: CreateProductDto,
   ): Promise<ExternalProductDto> {
     return this.mapProductToExternal(
-      await this.productRepository.addProduct(_item_),
+      await this.productService.addProduct(_item_),
     );
   }
 
   @Delete(':id')
   @HttpCode(204)
   async deleteProduct(@Param('id') _id_: string): Promise<void> {
-    return await this.productRepository.deleteProduct(_id_);
+    return await this.productService.deleteProduct(_id_);
   }
 
   @Put(':id')
@@ -65,7 +70,7 @@ export class ProductsController {
     @Body() product: UpdateProductDto,
   ): Promise<ExternalProductDto> {
     return this.mapProductToExternal(
-      await this.productRepository.updateProduct(id, product),
+      await this.productService.updateProduct(id, product),
     );
   }
 

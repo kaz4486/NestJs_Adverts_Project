@@ -32,7 +32,7 @@ export class $InitData1667997534341 implements MigrationInterface {
     for (const tag of tags) {
       const tagToSave = new Tag();
       tagToSave.name = tag.name;
-      tagsArr.push(await getRepository(Tag).save(tagToSave));
+      tagsArr.push(await dataSource.getRepository(Tag).save(tagToSave));
     }
 
     console.log('Tags saved');
